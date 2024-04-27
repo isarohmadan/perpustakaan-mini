@@ -1,6 +1,16 @@
 <?php 
-require_once '../../App/loader.php';
-require_once '../../db/conn.php';
+session_start();
+require('../../db/conn.php');
+require('../../App/loader.php');
+
+if(isUserLoggedIn() == false){
+    header('Location: ../../auth/login.php');
+    exit;
+}
+if(isUserAdmin($conn) == false){
+    header('Location: ../user/index.php');
+    exit;
+}
 
 $genres = getGenreData($conn);
 
@@ -18,10 +28,14 @@ if(isset($_GET['ib'])){
     }
 
 if(isset($_POST['submit'])){
+    
     if(updatebookData($conn,$_POST)){
-        echo "books berhasil dibuat";
+        echo "<script> alert('Buku Berhasil Di Update!') 
+        window.location.href = 'buku.php';
+        </script>";
     }else{
-        echo "books gagal dibuat";
+        echo "<script> alert('Buku Gagal Di Update!') 
+        </script>";
     }
 }
 
@@ -45,7 +59,7 @@ if(isset($_POST['submit'])){
             <?php include('./partials/sidebar.php') ?>  
             <div class="col-md-9 container-fluid">
                 <div class="btn btn-danger text-white mb-3 mt-3">
-                    <a href="users.php" class="text-decoration-none text-white">Kembali</a>
+                    <a href="buku.php" class="text-decoration-none text-white">Kembali</a>
                 </div>
                 <hr>
                 <h2>Update Buku</h2>

@@ -1,7 +1,17 @@
 <?php 
 
+session_start();
 require('../../db/conn.php');
-require_once('../../App/loader.php');
+require('../../App/loader.php');
+
+if(isUserLoggedIn() == false){
+    header('Location: ../../auth/login.php');
+    exit;
+}
+if(isUserAdmin($conn) == false){
+    header('Location: ../user/index.php');
+    exit;
+}
 $data_peminjaman = getPeminjamanData($conn)
 ?>
 
@@ -17,7 +27,7 @@ $data_peminjaman = getPeminjamanData($conn)
     <div class="row">
         <?php include('partials/sidebar.php');?>
             <div class="container-fluid col-md-9 table-buku mt-5">
-            <h2>TABEL PEMINJAMAN</h2>
+            <h2>TABEL RIWAYAT PEMINJAMAN</h2>
             <hr>
                 <table class="table table-striped table-hover">
                     <thead>
@@ -41,7 +51,6 @@ $data_peminjaman = getPeminjamanData($conn)
                 <td><?= $data['tanggal_pinjaman'] ?></td>
                 <td>
                     <a href="delete_peminjaman.php?ip=<?= $data['kode_pinjaman'] ?>" class="btn btn-danger m-1">Delete</a>
-                    <a href="single_peminjaman.php?ip=<?= $data['kode_pinjaman'] ?>" class="btn btn-success m-1">View</a>
                 </td>
             </tr>
             <?php endforeach; ?>

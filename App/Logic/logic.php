@@ -100,7 +100,7 @@ function getBooksData($conn,$id=NULL){
  return null;
 }
 
-function createBooksData($conn , $data){
+function createBooksData($conn , $data, $file){
     $judul = htmlspecialchars($data['judul']);
     $penulis = htmlspecialchars($data['penulis']);
     $penerbit = htmlspecialchars($data['penerbit']);
@@ -108,13 +108,36 @@ function createBooksData($conn , $data){
     $id_genre = htmlspecialchars($data['genre']);
     $status = htmlspecialchars($data['status']);
     $deskripsi = htmlspecialchars($data['description']);
-    $uuid =Uuid::uuid4();
+    $uploaded_pdf_file = $file['pdf-file'];
+    $uuid = Uuid::uuid4();
     $uuid->toString();
+
+    // lokasi penyimpanan file
+    $uploadDir = __DIR__.'/../../resource/uploads/';
+    $tmp_name_file = generateHashedFileName($uploaded_pdf_file['name']);
+    $upload_pdf_file_path = $uploadDir . basename($tmp_name_file);
+
+    if(fileValidator($uploaded_pdf_file , $upload_pdf_file_path) == false){
+        echo "<script> alert('Perhatikan File Size dan Formatnya!') 
+        window.location.href = 'buku.php';
+        </script>";
+        return false;
+    }
+    
+
     if(checkIfJudulIsDuplicated($conn,$judul) == false){
         return false;
     };
-    $sql = "INSERT INTO `books` (`id_buku`, `judul`, `penulis`, `deskripsi`, `penerbit`, `id_genre`, `status`, `supplier`) VALUES ('$uuid', '$judul', '$penulis', '$deskripsi', '$penerbit', '$id_genre', '$status', '$supplier')";
+    $sql = "INSERT INTO `books` (`id_buku`, `judul`, `penulis`, `deskripsi`, `penerbit`, `id_genre`, `status`, `supplier`,`path_img`) VALUES ('$uuid', '$judul', '$penulis', '$deskripsi', '$penerbit', '$id_genre', '$status', '$supplier' , '$tmp_name_file')";
     $result = $conn->query($sql);
+    // Move uploaded file to target directory
+    if (move_uploaded_file($uploaded_pdf_file['tmp_name'], $upload_pdf_file_path)) {
+        echo 'File uploaded successfully.';
+    } else {
+        echo 'Error uploading file.';
+
+        die;
+    }
     if ($result) {
         return true;
     }

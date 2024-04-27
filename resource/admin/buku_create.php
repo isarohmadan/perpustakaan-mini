@@ -1,15 +1,32 @@
 
 <?php 
+session_start();
 require('../../db/conn.php');
 require('../../App/loader.php');
+
+if(isUserLoggedIn() == false){
+    header('Location: ../../auth/login.php');
+    exit;
+}
+if(isUserAdmin($conn) == false){
+    header('Location: ../user/index.php');
+    exit;
+}
+
 
 $genres=getGenreData($conn);
 
 if(isset($_POST['submit'])){
-    if(createBooksData($conn,$_POST)){
-        echo "User berhasil dibuat";
+    if(createBooksData($conn,$_POST,$_FILES)){
+        echo "<script> alert('Buku Berhasil Di Buat!') 
+        window.location.href = 'buku.php';
+        </script>";
+        // header('location: buku.php');
     }else{
-        echo "User gagal dibuat";
+        echo "<script> alert('Buku Gagal Di Buat!')
+        window.location.href = 'buku.php';
+        </script>";
+        // header('location: buku.php');
     }
 }
 
@@ -35,7 +52,7 @@ if(isset($_POST['submit'])){
                 </div>
                 <hr>
                 <h2>Create Buku</h2>
-                <form action="" method="POST">
+                <form action="" method="POST" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="judul">Judul Buku</label>
                         <input type="text" class="form-control" id="judul" name="judul" required>
@@ -58,6 +75,10 @@ if(isset($_POST['submit'])){
                     <div class="form-group" >
                         <label for="supplier">Supplier Buku</label>
                         <input type="supplier" class="form-control" id="supplier" name="supplier" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="file_pdf" class="form-label">Upload Buku</label>
+                        <input class="form-control form-control-sm" name="pdf-file" id="file_pdf" type="file">
                     </div>
                     <div class="form-group">
                         <label for="genre">Genre</label>

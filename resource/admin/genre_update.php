@@ -1,6 +1,16 @@
 <?php 
-require_once '../../App/loader.php';
-require_once '../../db/conn.php';
+session_start();
+require('../../db/conn.php');
+require('../../App/loader.php');
+
+if(isUserLoggedIn() == false){
+    header('Location: ../../auth/login.php');
+    exit;
+}
+if(isUserAdmin($conn) == false){
+    header('Location: ../user/index.php');
+    exit;
+}
 
 // check if the ig is available at the table 
 $genre = null;
@@ -17,9 +27,13 @@ if(isset($_GET['ig'])){
 
 if(isset($_POST['submit'])){
     if(updateGenreData($conn,$_POST)){
-        echo "User berhasil dibuat";
+        echo "<script> alert('Genre Berhasil Di Update!') 
+        window.location.href = 'genre.php';
+        </script>";
     }else{
-        echo "User gagal dibuat";
+        echo "<script> alert('Genre Gagal Di Update!') 
+        window.location.href = 'genre.php';
+        </script>";
     }
 }
 

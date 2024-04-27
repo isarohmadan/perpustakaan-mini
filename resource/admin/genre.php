@@ -1,6 +1,16 @@
 <?php 
+session_start();
 require('../../db/conn.php');
 require('../../App/loader.php');
+
+if(isUserLoggedIn() == false){
+    header('Location: ../../auth/login.php');
+    exit;
+}
+if(isUserAdmin($conn) == false){
+    header('Location: ../user/index.php');
+    exit;
+}
 $genres = getGenreData($conn);
 ?>
 

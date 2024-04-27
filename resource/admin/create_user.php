@@ -1,14 +1,29 @@
 
 <?php 
+session_start();
 require('../../db/conn.php');
 require('../../App/loader.php');
+
+if(isUserLoggedIn() == false){
+    header('Location: ../../auth/login.php');
+    exit;
+}
+if(isUserAdmin($conn) == false){
+    header('Location: ../user/index.php');
+    exit;
+}
+
 
 
 if(isset($_POST['submit'])){
     if(createUserData($conn,$_POST)){
-        echo "User berhasil dibuat";
+        echo "<script> alert('User Berhasil Di Buat!') 
+        window.location.href = 'users.php';
+        </script>";
     }else{
-        echo "User gagal dibuat";
+        echo "<script> alert('User Gagal Di Buat!') 
+        window.location.href = 'users.php';
+        </script>";
     }
 }
 

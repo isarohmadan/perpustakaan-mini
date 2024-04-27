@@ -36,3 +36,42 @@ function checkIfJudulIsDuplicated($conn, $judul, $id_buku=NULL){
     }
     return true;
 }
+
+
+function validateFileType($file){
+    // Validate file type
+    $fileType = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+    if ($fileType !== 'pdf') {
+      return false;
+    }
+    return true;
+}
+
+function validateSizeFile($file){
+    // Validate file size (optional)
+    $maxFileSize = 10 * 1024 * 1024; // 10 MB
+    if ($file > $maxFileSize) {
+      return false;
+    }
+    return true;
+}
+
+function fileValidator($file , $uploaded_path){
+    
+    if(validateFileType($uploaded_path) == false){
+        return false;
+    }
+    // Validate file size (optional)
+    if(validateSizeFile($file['size']) == false){
+        return false;
+    }
+    return true;
+}
+
+function generateHashedFileName($originalFileName) {
+    $salt = 'your-salt-here';
+    $hash = hash_hmac('sha256', $originalFileName, $salt);
+    $hashedFileName = substr($hash, 0, 10) . '_' . basename($originalFileName);
+    return $hashedFileName;
+  }
+  

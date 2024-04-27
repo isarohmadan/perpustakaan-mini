@@ -1,6 +1,16 @@
 <?php 
-require_once '../../App/loader.php';
-require_once '../../db/conn.php';
+session_start();
+require('../../db/conn.php');
+require('../../App/loader.php');
+
+if(isUserLoggedIn() == false){
+    header('Location: ../../auth/login.php');
+    exit;
+}
+if(isUserAdmin($conn) == false){
+    header('Location: ../user/index.php');
+    exit;
+}
 
 // check if the iu is available at the table 
 $user = null;
@@ -17,9 +27,13 @@ if(isset($_GET['iu'])){
 
 if(isset($_POST['submit'])){
     if(updateUserData($conn,$_POST)){
-        echo "User berhasil dibuat";
+        echo "<script> alert('User Berhasil Di Update!') 
+        window.location.href = 'users.php';
+        </script>";
     }else{
-        echo "User gagal dibuat";
+        echo "<script> alert('User Gagal Di Update!') 
+        window.location.href = 'users.php';
+        </script>";
     }
 }
 

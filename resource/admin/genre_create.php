@@ -1,14 +1,28 @@
 
 <?php 
+session_start();
 require('../../db/conn.php');
 require('../../App/loader.php');
+
+if(isUserLoggedIn() == false){
+    header('Location: ../../auth/login.php');
+    exit;
+}
+if(isUserAdmin($conn) == false){
+    header('Location: ../user/index.php');
+    exit;
+}
 
 
 if(isset($_POST['submit'])){
     if(createGenreData($conn,$_POST)){
-        echo "User berhasil dibuat";
+        echo "<script> alert('Genre Berhasil Di Buat!') 
+        window.location.href = 'genre.php';
+        </script>";
     }else{
-        echo "User gagal dibuat";
+        echo "<script> alert('Genre Gagal Di Buat!') 
+        window.location.href = 'genre.php';
+        </script>";
     }
 }
 
