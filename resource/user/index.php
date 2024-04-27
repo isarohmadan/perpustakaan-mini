@@ -7,7 +7,7 @@ if(isUserLoggedIn() == false){
     header('Location: ../../auth/login.php');
     exit;
 }
-if(isUserAdmin($conn) == false){
+if(isUser($conn) == false){
     header('Location: ../user/index.php');
     exit;
 }

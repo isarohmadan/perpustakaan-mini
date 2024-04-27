@@ -52,6 +52,7 @@ if(isUserAdmin($conn) == false){
                                 <th>Email</th>
                                     <th>Alamat</th>
                                 <th>Nomor</th>
+                                <th>User</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -63,6 +64,7 @@ if(isUserAdmin($conn) == false){
                             <td><?= $user['email'] ?></td>
                             <td><?= $user['alamat'] ?></td>
                             <td><?= $user['nomor'] ?></td>
+                            <td><?= $user['level'] ?></td>
                             <td>
                                 <a href="update_user.php?iu=<?= $user['id_user'] ?>" class="btn btn-primary">Edit</a>
                                 <a href="update_user.php?iu=<?= $user['id_user'] ?>" class="btn btn-success">View</a>
