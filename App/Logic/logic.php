@@ -176,9 +176,13 @@ function deleteBooksData($conn,$id){
 
 
 // PEMINJAMAN SECTION
-function getPeminjamanData($conn){
+function getPeminjamanData($conn , $id = NULL){
     $sql = "SELECT users.nama_user, users.email, books.judul , books.deskripsi , kode_pinjaman, tanggal_pinjaman
     FROM ((peminjaman INNER JOIN users ON peminjaman.id_user = users.id_user)INNER JOIN books ON peminjaman.id_buku = books.id_buku);";
+    if ($id != NULL) {
+        $sql = "SELECT users.nama_user, users.email, books.judul , books.deskripsi , kode_pinjaman, tanggal_pinjaman
+        FROM ((peminjaman INNER JOIN users ON peminjaman.id_user = users.id_user)INNER JOIN books ON peminjaman.id_buku = books.id_buku) WHERE `peminjaman`.id_user='$id'";
+    }
     $result = $conn->query($sql);
     $data = array();
     if ($result && $result->num_rows > 0) {

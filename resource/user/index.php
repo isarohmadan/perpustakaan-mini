@@ -25,7 +25,7 @@ $pinjaman = count(getPeminjamanData($conn,$_SESSION['user_id']));
     <link rel="stylesheet" href="./asset/index.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
 </head>
-<body>
+<body class="overflow-x-hidden">
     <div class="row">
         <?php include('partials/sidebar.php');?>
 
@@ -59,7 +59,7 @@ $pinjaman = count(getPeminjamanData($conn,$_SESSION['user_id']));
                 <div class="card-statistic-3 p-4">
                     <div class="card-icon card-icon-large"><i class="fas fa-users"></i></div>
                     <div class="mb-4">
-                        <h5 class="card-title mb-0">Jumlah Buku Yang Di Pinjam</h5>
+                        <h5 class="card-title mb-0">Jumlah Buku Yang Anda Pinjam</h5>
                     </div>
                     <div class="row align-items-center mb-2 d-flex">
                         <div class="col-8">
