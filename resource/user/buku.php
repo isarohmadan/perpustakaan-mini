@@ -60,7 +60,7 @@ $books = getBooksWithAvailableStatus($conn);
                             <td>
                                 <a href="peminjaman.php?ib=<?= $book['id_buku'] ?>" class="btn btn-primary m-1">Pinjam</a>
                             </td>
-                        </tr>
+                        </tr>   
                     <?php endforeach; ?>
                 <?php endif; ?>
                 <!-- Add more rows as needed -->

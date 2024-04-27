@@ -1,0 +1,7 @@
+Nama Saya Isa Rohmadan saya mahasiswa ITB STIKOM dengan NIM 220042032
+
+Paduan install app :
+1. unzip file terlebih dahulu.
+2. Composer install untuk install dependency.
+3. import database yang berada di folder db.
+4. selamat menggunakan

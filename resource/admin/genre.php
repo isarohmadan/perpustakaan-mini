@@ -11,6 +11,7 @@ if(isUserAdmin($conn) == false){
     header('Location: ../user/index.php');
     exit;
 }
+
 $genres = getGenreData($conn);
 ?>
 
